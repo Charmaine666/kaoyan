@@ -1,0 +1,22 @@
+#top{
+    position: relative;
+    width:100vw;
+    height: 3vh;
+    border: 1px solid black;
+    /* position: fixed; */
+    overflow: hidden;
+    
+
+} 
+#top p {
+    /* position: absolute;
+    width: 50vw;
+    height: 2vw;
+    text-align: center;
+    top: 50%; /* 设置文字顶部在父容器中垂直居中 
+      transform: translateY(-50%);
+      font-size: 20vw; */
+      position: absolute;
+     
+      font-size: 1vw; /* 设置文字字体大小为视口宽度的2% */
+}
