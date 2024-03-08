@@ -570,9 +570,9 @@ export default {
   #spot{
     margin-top: 15px;
     width: 100%;
-    height: 660px;
+    /* height: 660px; */
 
-    border: 1px solid red;
+    border: 1px solid rgb(102, 95, 95);
   }
   #spot_head{
     border-bottom: 0.4px solid rgb(139, 138, 138);

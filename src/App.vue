@@ -47,9 +47,47 @@
             </el-input>
           </div>
         </div>
-        <div>
-          <el-button id="btn_search">登录/注册</el-button>
+        <div v-show="checked" id="btn_login">
+          <el-button id="btn_search" @click="login()">登录/注册</el-button>
         </div>
+        <el-popover
+          placement="top"
+          width="160"
+          v-model="visible"
+          trigger="hover">
+          <div style="">
+            <el-button size="normal" @click="logout()" style="width: 70px; height: 40px;">退出登录</el-button>
+            <el-button size="normal" @click="goPersonal()" style="width: 70px; height: 40px;">个人主页</el-button>
+          </div>
+          <div id="login_amatur" v-show="!checked"  slot="reference">
+          <img :src="amatur" style="width: 100%; height:100%; border-radius: 50%;" >
+          </div>
+        </el-popover>
+      </div>
+      <div class="login-box"  id="login-box">
+        <h2>登录系统</h2>
+        <form>
+          <div class="user-box">
+            <input type="text" name="" required="" v-model="username">
+            <label>账号</label>
+          </div>
+          <div class="user-box">
+            <input type="password" name="" required="" v-model="password">
+            <label>密码</label>
+          </div>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <a @click="handleSubmit()">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            登录
+          </a>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <a @click="cancel()">取消 </a>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <div style="color: aliceblue;"> 没有账号？点击</div><button @click="signUp_asd">注册</button>
+        </form>
       </div>
 
       <div id="nav">
@@ -61,15 +99,18 @@
         <button class="btn_nav" @click="goCom()">互动交流</button>
       </div>
       <div>
-      <router-view></router-view></div>
+      <router-view :key="$route.fullPath"></router-view></div>
       <!-- </div> -->
     </div>
    </div>
+   <!-- <div class="hide_main" id="hide_main"></div> -->
+
   </div>
 </template>
 
 <script>
-
+import {userInfo, Reg} from '@/api/user.js'
+import axios from 'axios'
 // import bHeader from '@/components/Header.vue'
 // import firstPage from '@/views/home'
 // import newsVue from '@/components/News.vue'
@@ -79,64 +120,198 @@ export default {
   // components: {firstPage, newsVue},
   data () {
     return {
+      username: '',
+      password: '',
+      msg: '',
+      amatur: 'http://s9nrl7h4c.hn-bkt.clouddn.com/avatar2.jpg',
+      checked: true,
+      visible: false
     }
   },
+  watch: {
+    // $route (to, from) {
+    //   if (to.path === `/newsuser/personal/${this.$store.state.id}`) {
+    //     this.reload()
+    //   } else if (to.path === `/newsuser/personal/${this.$route.params.id}`) {
+    //     this.reload()
+    //   }
+    // }
+
+  },
+  mounted () {
+    this.check()
+  },
   methods: {
+    load () {
+      // this.check()
+    },
+    check () {
+      let username = sessionStorage.getItem('userid')
+      console.log(username)
+      if (username) {
+        userInfo(username).then((res) => {
+          console.log('成功登录')
+          let result = res.data.data[0]
+          this.amatur = result.avatar
+        })
+        this.checked = false
+        // let d1 = document.getElementById('btn_search')
+        // let d2 = document.getElementById('login_amatur')
+        // console.log(d1)
+        // console.log(d2)
+        // // d1.style.color('red')
+        // d2.style.cssText('color: red')
+      }
+    },
+    cancel () {
+      var d1 = document.getElementById('login-box')
+      d1.style.cssText = 'display: none'
+    },
+    login () {
+      var d1 = document.getElementById('login-box')
+      d1.style.cssText = 'display: block'
+      // var d2 = document.getElementById('hide_main')
+
+      // d2.style.height = '100vh'
+      // d2.style.width = '100%'
+      // d2.style.display = 'block'
+    },
     goHome () {
       this.$router.push({
         path: '/'
       })
+      // this.$router.go(0)
     },
     goCol () {
       this.$router.push({
         path: '/col'
       })
+      // this.$router.go(0)
     },
     goSpe () {
       this.$router.push({
         path: '/spe'
       })
+      // this.$router.go(0)
     },
     goEncy () {
       this.$router.push({
         path: '/ency'
       })
+      // this.$router.go(0)
     },
     goCom () {
       this.$router.push({
         path: '/com'
       })
+      // this.$router.go(0)
     },
     goPre () {
       this.$router.push({
         path: '/pre'
       })
+      // this.$router.go(0)
     },
-    changeCol () {
-      if (this.page + 9 > this.chapterList.length) {
-        this.page = 0
+    goPersonal () {
+      this.$router.push({
+        name: 'personal',
+        params: {
+          id: this.$store.state.id
+        }
+      })
+    },
+    logout () {
+      sessionStorage.removeItem('userid')
+      this.checked = true
+      this.$message({
+        showClose: true,
+        message: '退出成功',
+        type: 'success'
+      })
+      this.$router.replace({path: '/'})
+    },
+    created () {
+
+    },
+    signUp_asd () {
+      let _this = this
+      // this.$router.replace({path: '/signUp'})
+      Reg(this.username, this.password).then((res) => {
+        // alert('注册成功')
+        // _this.open3()
+        if (res.data.code === 500) {
+          _this.msg = res.data.msg
+          _this.open3()
+          console.log(_this)
+        } else {
+          _this.msg = '注册成功，请登录'
+          _this.open2()
+          _this.username = ''
+          _this.password = ''
+        }
+        console.log(res.data)
+      })
+    },
+    open1 () {
+      this.$message({
+        showClose: true,
+        message: this.msg,
+        type: 'warning'
+      })
+    },
+    open2 () {
+      this.$message({
+        showClose: true,
+        message: this.msg,
+        type: 'success'
+      })
+    },
+    open3 () {
+      this.$message({
+        showClose: true,
+        message: this.msg,
+        type: 'error'
+      })
+    },
+
+    handleSubmit () {
+      let _this = this
+      if (this.username === '' || this.password === '') {
+        this.msg = '请输入账号密码'
+        this.open3()
       } else {
-        this.page += 9
+        axios.post('http://localhost:90/api/userLogin',
+          {
+            account: this.username,
+            password: this.password
+          })
+          .catch(function (error) {
+            console.log(error.response.data.msg)
+            _this.msg = '请检查账号是否合法'
+            _this.open3()
+          }).then(function (response) {
+            console.log(response.data)
+            if (response.data.code === 200) {
+              _this.msg = response.data.msg
+              _this.open2()
+              // 此处开始配置全局
+              _this.$store.commit('setUserMsg', {
+                id: response.data.data[0].id,
+                account: response.data.data[0].account,
+                nickname: response.data.data[0].nickname
+              })
+              _this.$store.commit('print')
+              _this.cancel()
+              sessionStorage.setItem('userid', response.data.data[0].id)
+              _this.check()
+            } else {
+              _this.msg = response.data.msg
+              _this.open3()
+            }
+          })
       }
-    },
-    handleSelect (key, keyPath) {
-      console.log(key, keyPath)
-    },
-    autoPlay () {
-      this.mark++
-      if (this.mark === 3) {
-        this.mark = 0
-      }
-    },
-    play () {
-      setInterval(this.autoPlay, 2500)
-    },
-    change (i) {
-      this.mark = i
     }
-  },
-  created () {
-    this.play()
+
   }
 
 }
@@ -146,6 +321,7 @@ export default {
 *{
   margin:0;
   padding:0;
+  /* background-color: rgb(127, 92, 92); */
 }
 
 #app{
@@ -157,6 +333,10 @@ export default {
   /* background-color: rgb(243, 236, 236); */
   /* margin-top: 60px; */
   text-align: left;
+  background-image: url("~@/assets/img/html_bk3.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  /* opacity: 0.5; */
 }
 .el-menu-item{
   margin-left: 500px;
@@ -165,7 +345,7 @@ export default {
 .bg{
   /* border: 1px solid red; */
   width: 70%;
-  height: 2500px;
+  /* height: 2500px; */
   margin-left:15%;
 }
 
@@ -185,16 +365,37 @@ export default {
   /* height: 800px; */
 }
 #search{
-  width: 90%;
+  width: 98%;
+  margin-left: 2%;
+  margin-top: 7px;
   /* border: 1px solid red; */
   /* height: 800px; */
 }
+#btn_login{
+  width: 20%;
+  /* height: 100px; */
+  /* border: 1px solid red; */
+    display: flex;
+  flex-direction: row;
+  justify-content:flex-end;
+}
 #btn_search{
   width: 97px;
-  height: 45px;
+  height: 54px;
+  display:block;
   /* margin-left: -5px; */
   /* height: ; */
 }
+
+#login_amatur{
+    /* position: fixed; */
+    /* left: 78%; */
+    width: 65px;
+    height: 65px;
+    /* border: 1px solid red; */
+    /* z-index: 1; */
+    /* display: none; */
+  }
 
 #nav{
   /* margin-top: 10px; */
@@ -224,272 +425,174 @@ export default {
   border-radius: 50%;
 }
 
-#carousel{
-  margin-top: 10px;
-  width: 100%;
-  height: 580px;
-  /* border: 1px solid red; */
-}
-.slide {
-    width: 100%;
-    height: 100%;
-    margin: 0 auto;
-    overflow: hidden;
+/* .hide_main {
+  // border: solid 3px green;
+  background: #515257;
+  position: fixed;
+  display: none;
+  top: 0;
+  z-index: 1040;
+} */
+
+.login-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    padding: 40px;
+    transform: translate(-50%, -50%);
+    background: rgba(84, 55, 35, 0.7);
+    box-sizing: border-box;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, .6);
+    border-radius: 10px;
+    z-index: 1000;
+    display: none;
+  }
+
+  .login-box h2 {
+    margin: 0 0 30px;
+    padding: 0;
+    color: #fff;
+    text-align: center;
+  }
+
+  .login-box .user-box {
     position: relative;
-    /* border: 1px solid red; */
   }
-  .slideshow {
-    /* width: 100%; */
-    /* height: 150px; */
-  }
-  li {
-    position: absolute;
-  }
-  .bar {
-    position: absolute;
+
+  .login-box .user-box input {
     width: 100%;
-    bottom: 10px;
-    margin: 0 auto;
-    z-index: 10;
-    text-align: center;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #fff;
+    margin-bottom: 30px;
+    border: none;
+    border-bottom: 1px solid #fff;
+    outline: none;
+    background: transparent;
   }
-  .bar span {
-    width: 20px;
-    height: 5px;
-    /* border: 1px solid; */
-    background: white;
+
+  .login-box .user-box label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #fff;
+    pointer-events: none;
+    transition: .5s;
+  }
+
+  .login-box .user-box input:focus ~ label,
+  .login-box .user-box input:valid ~ label {
+    top: -20px;
+    left: 0;
+    color: #03e9f4;
+    font-size: 12px;
+  }
+
+  .login-box form a {
+    position: relative;
     display: inline-block;
-    margin-right: 10px;
-  }
-  .active {
-    background: #bfd6b6 !important;
-  }
-
-  #colleges{
-    margin-top: 15px;
-    width: 100%;
-    height: 500px;
-    /* border: 1px solid red; */
-  }
-  #col_head{
-    border-bottom: 2px solid rgb(244, 73, 5);
-    height: 15%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    font-size: 1.2rem;
-    font-weight:bold;
-  }
-  #col_head_nav{
-    width: 70%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    /* border: 1px solid red; */
-  }
-  .col_nav{
-    margin-left: 25px;
-    color: black;
+    padding: 10px 20px;
+    color: #03e9f4;
+    font-size: 16px;
     text-decoration: none;
-  }
-  .col_nav:active{
-    text-decoration:underline;
-    color: rgb(250, 92, 13);
+    text-transform: uppercase;
+    overflow: hidden;
+    transition: .5s;
+    margin-top: 40px;
+    letter-spacing: 4px
   }
 
-  #col_body{
+  .login-box a:hover {
+    background: #03e9f4;
+    color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #03e9f4,
+    0 0 25px #03e9f4,
+    0 0 50px #03e9f4,
+    0 0 100px #03e9f4;
+  }
+
+  .login-box a span {
+    position: absolute;
+    display: block;
+  }
+
+  .login-box a span:nth-child(1) {
+    top: 0;
+    left: -100%;
     width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #03e9f4);
+    animation: btn-anim1 1s linear infinite;
+  }
+
+  @keyframes btn-anim1 {
+    0% {
+      left: -100%;
+    }
+    50%, 100% {
+      left: 100%;
+    }
+  }
+
+  .login-box a span:nth-child(2) {
+    top: -100%;
+    right: 0;
+    width: 2px;
     height: 100%;
-    display: flex;
-    flex-direction: row;
-  }
-  #rep{
-    width: 30%;
-    height: 85%;
-    /* border: 1px solid rgb(89, 85, 85); */
-    background-color: rgba(244, 116, 51, 0.9);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  #name_col{
-    color: aliceblue;
-    /* border: 1px solid rgb(89, 85, 85); */
-    font-size: 1.7rem;
-    padding-bottom: 19px;
-  }
-  #type_col{
-    color: white;
-    border: 0.7px solid rgb(237, 232, 232);
-    font-size: 0.5rem;
-    width: 45px;
-    text-align: center;
-    margin-bottom: 10px;
-  }
-  #img_col{
-    width: 70%;
-    height: 60%;
-    /* border: 1px solid rgb(89, 85, 85); */
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  #img_col_img{
-    width: 74%;
-    height: 74%;
-    /* border: 1px solid rgb(89, 85, 85); */
-  }
-  #img_col_go{
-    margin-top: 7px;
-    color: rgb(89, 85, 85);
-    font-size: 0.9rem;
-  }
-  #img_col_go a{
-  text-decoration: none;
+    background: linear-gradient(180deg, transparent, #03e9f4);
+    animation: btn-anim2 1s linear infinite;
+    animation-delay: .25s
   }
 
-  #card_col{
-    width: 31%;
-    height: 85%;
-    border: 0.2px solid rgb(103, 101, 101);
-    text-align: center;
-    display: flex;
-    flex-direction: row;
-    border-radius: 2px;
-    /* justify-content: center;
-    align-items: center; */
+  @keyframes btn-anim2 {
+    0% {
+      top: -100%;
+    }
+    50%, 100% {
+      top: 100%;
+    }
   }
 
-  #card_col:hover{
-    box-shadow: 0px 10px 15px #666;
-    transition: all 0.5s;
-    transform: translateY(-11px);
+  .login-box a span:nth-child(3) {
+    bottom: 0;
+    right: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(270deg, transparent, #03e9f4);
+    animation: btn-anim3 1s linear infinite;
+    animation-delay: .5s
   }
-  #col_avater{
-    /* border: 1px solid rgb(89, 85, 85); */
-    background-color: white;
-    width: 37%;
+
+  @keyframes btn-anim3 {
+    0% {
+      right: -100%;
+    }
+    50%, 100% {
+      right: 100%;
+    }
+  }
+
+  .login-box a span:nth-child(4) {
+    bottom: -100%;
+    left: 0;
+    width: 2px;
     height: 100%;
+    background: linear-gradient(360deg, transparent, #03e9f4);
+    animation: btn-anim4 1s linear infinite;
+    animation-delay: .75s
   }
 
-  #special{
-    margin-top: 15px;
-    width: 100%;
-    height: 500px;
-    /* border: 1px solid red; */
-  }
-  #spe_head{
-    border-bottom: 0.4px solid rgb(139, 138, 138);
-    height: 15%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 1.2rem;
-    font-weight:bold;
-  }
-  #spe_body{
-    width: 100%;
-    height: 85%;
-    /* border:1px solid black; */
-    display: flex;
-    flex-direction: row;
-  }
-  #spe1{
-    width: 30%;
-    height: 96%;
-    /* border:1px solid rgb(187, 71, 71); */
-    margin-top: 15px;
-  }
-  #spe2{
-    width: 17%;
-    height: 96%;
-    /* border:1px solid rgb(187, 71, 71); */
-    margin-left: 10px;
-    margin-top: 15px;
-  }
-  #spe3{
-    width: 17%;
-    height: 96%;
-    /* border:1px solid rgb(187, 71, 71); */
-    margin-left: 10px;
-    margin-top: 15px;
-  }
-  .spe2_chil{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    width: 100%;
-    height: 48%;
-    /* border:1px solid rgb(187, 71, 71); */
-  }
-  .spe2_chil:hover,#spe1:hover,#spe2:hover{
-    box-shadow: 0px 10px 15px #666;
-    transition: all 0.5s;
-    transform: translateY(-11px);
-  }
-  .lay_spe{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-
-  }
-  .spe_title{
-    font-weight: bold;
-    font-size: 1.27rem;
-    width: 100%;
-    height: 27px;
-    /* border:1px solid rgb(187, 71, 71); */
-    text-align: center;
-  }
-  .spe_school{
-    font-size: 0.6rem;
-    margin-top:-40px;
-  }
-  .spe2_school{
-    font-size: 0.6rem;
-    margin-top:-10px;
-  }
-  .spe_icon1{
-    width: 28%;
-    height: 20%;
-    /* border:1px solid rgb(187, 71, 71); */
-    margin-top:-40px;
-  }
-  .spe_icon2{
-    width: 65%;
-    height: 40%;
-    /* border:1px solid rgb(187, 71, 71); */
-    margin-bottom:26px;
-  }
-  .spe_icon3{
-    width: 50%;
-    height: 44%;
-    /* border:1px solid rgb(187, 71, 71); */
-    margin-bottom:16px;
+  @keyframes btn-anim4 {
+    0% {
+      bottom: -100%;
+    }
+    50%, 100% {
+      bottom: 100%;
+    }
   }
 
-  #spot{
-    margin-top: 15px;
-    width: 100%;
-    height: 660px;
-
-    border: 1px solid red;
-  }
-  #spot_head{
-    border-bottom: 0.4px solid rgb(139, 138, 138);
-    height: 10%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 1.2rem;
-    font-weight:bold;
-  }
 </style>

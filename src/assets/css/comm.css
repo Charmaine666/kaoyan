@@ -1,9 +1,43 @@
+@font-face {
+    font-family: "iconfont"; /* Project id 4458996 */
+    src: url('//at.alicdn.com/t/c/font_4458996_hw7bssopbtq.woff2?t=1709885481641') format('woff2'),
+         url('//at.alicdn.com/t/c/font_4458996_hw7bssopbtq.woff?t=1709885481641') format('woff'),
+         url('//at.alicdn.com/t/c/font_4458996_hw7bssopbtq.ttf?t=1709885481641') format('truetype');
+  }
+  
+  .iconfont {
+    font-family: "iconfont" !important;
+    font-size: 18px;
+    /* font-weight: bold; */
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  .icon-dengji:before {
+    content: "\e6ab";
+  }
+  
+  .icon-pinglun:before {
+    font-size: 23px;
+    font-weight: bold;
+    content: "\e647";
+    margin-left: 15px;
+  }
+  
+  .icon-dianzan:before {
+    font-size: 23px;
+    font-weight: bold;
+    content: "\e8ad";
+}
+
+
 #comm{
-    border:1px solid black;
+    border:1px dashed rgb(244, 128, 12);
     width:90%;
     /* height:900px; */
     margin: 0 auto;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 #comm_head{
     width: 96%;
@@ -21,6 +55,7 @@
     background-color: #f9be3a;
     border-radius: 10px;
     border: 0.8px solid gray;
+    text-decoration: none;
 }
 #comm_search{
     width: 96%;
@@ -29,18 +64,19 @@
 }
 #content{
     width: 100%;
-    height: 1500px;
-    border:1px solid black;
+    /* height: 1500px; */
+    /* border:1px solid rgb(7, 7, 7); */
     margin-top: 20px;
 }
 
 .card_find{
     width:98%;
-    height: 300px;
-    border:0.7px solid rgb(105, 100, 100);
+    height: 330px;
+    /* border:0.7px solid rgb(105, 100, 100); */
     margin: 0 auto;
-    margin-top: 5px;
+    margin-top: 10px;
     border-radius: 10px;
+    outline: dashed 2px #f9be3a;
 }
 #content_head{
     width:100%;
@@ -96,11 +132,11 @@
     align-items: center;
 }
 #author_left{
-    width: 44px;
-    height: 44px;
+    width: 150px;
+    height: 50px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     margin-left: 18px;
 }

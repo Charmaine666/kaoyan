@@ -41,7 +41,7 @@
             </template>
             <el-tag size="small">{{ sex }}</el-tag>
           </el-descriptions-item>
-          <el-descriptions-item>
+          <!-- <el-descriptions-item>
             <template slot="label">
               <i class="el-icon-message"></i>
               邮箱Email
@@ -54,7 +54,7 @@
               手机号码
             </template>
             {{ mobilePhoneNumber }}
-          </el-descriptions-item>
+          </el-descriptions-item> -->
           <el-descriptions-item>
             <template slot="label">
               <i class="el-icon-location-outline"></i>
@@ -70,13 +70,13 @@
             {{ work }}
           </el-descriptions-item>
 
-          <el-descriptions-item>
+          <!-- <el-descriptions-item>
             <template slot="label">
               <i class="el-icon-basketball"></i>
               兴趣爱好
             </template>
             {{ hobby }}
-          </el-descriptions-item>
+          </el-descriptions-item> -->
           <el-descriptions-item>
             <template slot="label">
               <i class="el-icon-magic-stick"></i>
@@ -84,13 +84,13 @@
             </template>
             {{ design }}
           </el-descriptions-item>
-          <el-descriptions-item>
+          <!-- <el-descriptions-item>
             <template slot="label">
               <i class="el-icon-date"></i>
               注册日期
             </template>
             {{ createDate | formatDate }}
-          </el-descriptions-item>
+          </el-descriptions-item> -->
         </el-descriptions>
       </el-card>
     </div>
@@ -123,18 +123,15 @@ export default {
     load () {
       userInfo(this.$route.params.id)
         .then((res) => {
-          this.avatar = res.data.avatar
-          this.account = res.data.account
-          this.age = res.data.age
-          this.email = res.data.email
-          this.mobilePhoneNumber = res.data.mobilePhoneNumber
-          this.area = res.data.area
-          this.createDate = res.data.createDate
-          this.nickname = res.data.nickname
-          this.sex = res.data.sex === 1 ? '男' : '女'
-          this.work = res.data.work
-          this.design = res.data.design
-          this.hobby = res.data.hobby
+          let result = res.data.data[0]
+          this.avatar = result.avatar
+          this.account = result.account
+          this.age = result.age
+          this.area = result.area
+          this.nickname = result.nickname
+          this.sex = result.sex === 1 ? '男' : '女'
+          this.work = result.work
+          this.design = result.design
         })
         .catch((err) => {
           console.log(err)

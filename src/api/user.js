@@ -1,7 +1,7 @@
 import request from '../utils/request'
 
 export function userInfo (id) {
-  console.log(id)
+  // console.log(id)
   return request({
     url: '/user',
     method: 'get',
@@ -16,8 +16,11 @@ export function userInfo (id) {
 
 export function updateUser (data) {
   return request({
-    url: '/api/updateuser',
+    url: '/updateuser',
     method: 'get',
+    headers: {
+      'Content-Type': 'application/json'
+    },
     params: {
       msg: data
     }
@@ -26,10 +29,27 @@ export function updateUser (data) {
 
 export function myArticle (id) {
   return request({
-    url: '/api/myarticle',
+    url: '/myarticle',
     method: 'get',
+    headers: {
+      'Content-Type': 'application/json'
+    },
     params: {
       id
+    }
+  })
+}
+
+export function Reg (account, password) {
+  return request({
+    url: '/reg',
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    data: {
+      account,
+      password
     }
   })
 }

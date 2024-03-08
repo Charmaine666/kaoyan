@@ -32,9 +32,9 @@
               >
               </el-switch>
             </el-form-item>
-            <el-form-item label="邮箱" prop="email">
+            <!-- <el-form-item label="邮箱" prop="email">
               <el-input v-model="form.email"></el-input>
-            </el-form-item>
+            </el-form-item> -->
 
     </div>
     <div class="right">
@@ -47,18 +47,18 @@
             <el-form-item label="地区" prop="area">
               <el-input v-model="form.area"></el-input>
             </el-form-item>
-            <el-form-item label="兴趣爱好" prop="hobby">
+            <!-- <el-form-item label="兴趣爱好" prop="hobby">
               <el-input v-model="form.hobby"></el-input>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="职业" prop="work">
               <el-input v-model="form.work"></el-input>
             </el-form-item>
                       <el-form-item label="个性签名" prop="design">
               <el-input v-model="form.design"></el-input>
             </el-form-item>
-            <el-form-item label="手机号码" prop="mobilePhoneNumber">
+            <!-- <el-form-item label="手机号码" prop="mobilePhoneNumber">
               <el-input v-model="form.mobilePhoneNumber"></el-input>
-            </el-form-item>
+            </el-form-item> -->
     </div>
     </div>
     </el-form>
@@ -111,10 +111,14 @@ export default {
       this.dialogVisible = true
     },
     load () {
+      console.log(this.$store.state.id)
+      console.log(22222)
       userInfo(this.$store.state.id)
         .then((res) => {
-          console.log(res)
-          Object.assign(this.form, res.data)
+          // console.log(22222)
+          // console.log(res.data.data[0])
+          // console.log(22222)
+          Object.assign(this.form, res.data.data[0])
         })
         .catch((err) => {
           console.log(err)

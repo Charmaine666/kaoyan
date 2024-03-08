@@ -99,7 +99,7 @@
               :route="{ name: 'mycollect', params: $route.params.id }"
             >
               <i class="el-icon-document"></i>
-              <span slot="title">收藏</span>
+              <span slot="title">点赞</span>
             </el-menu-item>
             <el-menu-item
               index="myfan"
@@ -160,9 +160,9 @@ export default {
     }
   },
   mounted () {
-    console.log(333333)
-    console.log(this.$store.state.id)
-    console.log(this.$route.params.id)
+    // console.log(333333)
+    // console.log(this.$store.state.id)
+    // console.log(this.$route.params.id)
     this.load()
   },
   watch: {
@@ -178,22 +178,25 @@ export default {
     load () {
       userInfo(this.$route.params.id)
         .then((res) => {
-          console.log(222222)
-          console.log(res.data.data[0])
+          // console.log(222222)
+          // console.log(res.data.data[0])
           let result = res.data.data[0]
           this.avatar = result.avatar
           this.nickname = result.nickname
           this.v = result.v
           this.design = result.design
+          this.followCounts = result.followCounts
+          this.fanCounts = result.fanCounts
+          this.goodCounts = result.goodCounts
         })
         .catch((err) => {
           // console.log(111111)
           // console.log(this.$store.state.id)
           console.log(err)
         })
-      console.log(111111)
       myFollow(this.$store.state.id)
         .then((res) => {
+          console.log(res)
           res.data.forEach((res) => {
             this.isfollowid.push(res.id)
           })
@@ -201,7 +204,7 @@ export default {
         .catch((err) => {
           console.log(err)
         })
-
+      // console.log(111111)
       followAndFanCount(this.$route.params.id)
         .then((res) => {
           this.followCounts = res.data.followCounts

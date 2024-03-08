@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 // import HelloWorld from '@/components/HelloWorld'
-import Login from '@/components/Login'
 import Nav from '@/components/Nav'
 import Cricle from '@/components/Cricle'
 import News from '@/components/News'
 import test from '@/components/test'
 import test2 from '@/components/test2'
 
+import Login from '@/views/login/Login'
 import Home from '@/views/Home'
 import College from '@/views/College'
 import Special from '@/views/Special'
@@ -90,6 +90,7 @@ export default new Router({
     },
     {
       path: '/newsuser/personal/:id',
+      name: 'personal',
       component: r => require.ensure([], () => r(require('@/views/person/Personal')), 'personal'),
       // meta: {
       //   requireLogin: true

@@ -4,7 +4,7 @@
       <el-empty
           v-if="allData.length == 0"
           :image-size="250"
-          description="暂未收藏任何新闻额"
+          description="暂未点赞任何文章"
         ></el-empty>
     </div>
   </template>

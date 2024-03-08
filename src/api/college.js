@@ -1,14 +1,16 @@
 import request from '../utils/request'
 
-export function myCollect (id) {
+export function colInfo (area, type, special) {
   return request({
-    url: '/mycollect',
+    url: '/colInfo',
     method: 'get',
     headers: {
       'Content-Type': 'application/json'
     },
     params: {
-      id
+      area,
+      type,
+      special
     }
   })
 }

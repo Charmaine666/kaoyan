@@ -1,0 +1,173 @@
+#baike{
+    
+    width: 100%;
+    /* height: 100vh; */
+    /* background-color: black; */
+    
+    
+}
+#body{
+    position: relative;
+    /* border:1px solid rgb(255, 111, 0); */
+    width: 100%;
+    /* left: -200px; */
+    /* background-color: rgba(255, 255, 255, 0.5); */
+}
+#body::before{
+    content:'';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url('~@/assets/img/baike_bg2.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.4;
+    z-index: -1;
+}
+.baike_box{
+    width: 60%;
+    /* height: 200px; */
+    border: 1px solid rgb(88, 87, 87);
+    border-bottom:20px solid rgb(118, 116, 116);
+    margin: 0 auto;
+    margin-top: 5px;
+    padding-bottom: 10px;
+    z-index: 2000;
+}
+#box_head{
+    width: 100%;
+    height: 30px;
+    border: 1px solid black;
+    font-size: 1.3rem;
+    font-weight: bold;
+    display: flex;
+}
+#buttons{
+    width: 100%;
+    height: 80%;
+    /* border: 1px solid black; */
+    /* display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    overflow: auto; */
+}
+.box_button{
+    width: 30%;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.heartbeat {
+    width: 100px;
+    height: 100px;
+    border: 1px solid red;
+	-webkit-animation: heartbeat 1.5s ease-in-out infinite both;
+	        
+    animation: heartbeat 1.5s ease-in-out infinite both;
+}
+
+@-webkit-keyframes heartbeat {
+    from {
+      -webkit-transform: scale(1);
+              transform: scale(1);
+      -webkit-transform-origin: center center;
+              transform-origin: center center;
+      -webkit-animation-timing-function: ease-out;
+              animation-timing-function: ease-out;
+    }
+    10% {
+      -webkit-transform: scale(0.91);
+              transform: scale(0.91);
+      -webkit-animation-timing-function: ease-in;
+              animation-timing-function: ease-in;
+    }
+    17% {
+      -webkit-transform: scale(0.98);
+              transform: scale(0.98);
+      -webkit-animation-timing-function: ease-out;
+              animation-timing-function: ease-out;
+    }
+    33% {
+      -webkit-transform: scale(0.87);
+              transform: scale(0.87);
+      -webkit-animation-timing-function: ease-in;
+              animation-timing-function: ease-in;
+    }
+    45% {
+      -webkit-transform: scale(1);
+              transform: scale(1);
+      -webkit-animation-timing-function: ease-out;
+              animation-timing-function: ease-out;
+    }
+  }
+  @keyframes heartbeat {
+    from {
+      -webkit-transform: scale(1);
+              transform: scale(1);
+      -webkit-transform-origin: center center;
+              transform-origin: center center;
+      -webkit-animation-timing-function: ease-out;
+              animation-timing-function: ease-out;
+    }
+    10% {
+      -webkit-transform: scale(0.91);
+              transform: scale(0.91);
+      -webkit-animation-timing-function: ease-in;
+              animation-timing-function: ease-in;
+    }
+    17% {
+      -webkit-transform: scale(0.98);
+              transform: scale(0.98);
+      -webkit-animation-timing-function: ease-out;
+              animation-timing-function: ease-out;
+    }
+    33% {
+      -webkit-transform: scale(0.87);
+              transform: scale(0.87);
+      -webkit-animation-timing-function: ease-in;
+              animation-timing-function: ease-in;
+    }
+    45% {
+      -webkit-transform: scale(1);
+              transform: scale(1);
+      -webkit-animation-timing-function: ease-out;
+              animation-timing-function: ease-out;
+    }
+  }
+
+/* .imgBox {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    perspective: 2000px;
+}
+
+.innerBox {
+    position: relative;
+    width: 250px;
+    height: 500px;
+    transition: all 0.5s;
+    transform-style: preserve-3d;
+}
+
+.innerBox button {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: none;
+    box-shadow: 0 0 8px pink;
+    transition: all 1.5s;
+    transform: translateZ(0px);
+}
+
+.innerBox:hover {
+    transform: rotateX(35deg) skew(10deg) rotateZ(-35deg);
+}
+
+.innerBox:hover button {
+    transform: translateX(calc(-10px * var(--ljc))) translateY(calc(10px * var(--ljc))) translateZ(calc(-10px * var(--ljc)));
+    opacity: calc(0.1 * (10 - var(--ljc)));
+}
+*/

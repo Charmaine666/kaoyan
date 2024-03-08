@@ -60,10 +60,10 @@ export default {
       if (to.path === `/newsuser/personal/myfan/${this.$route.params.id}`) {
         myFan(this.$route.params.id)
           .then((res) => {
-            console.log(res)
             this.allData = res.data
             myFollow(this.$route.params.id).then((res) => {
-              res.data.forEach((element) => {
+              res.data.data.forEach((element) => {
+                console.log(element)
                 this.isfollowid.push(element.id)
               })
             })
@@ -96,10 +96,11 @@ export default {
       ) {
         myFan(this.$route.params.id)
           .then((res) => {
-            console.log(res)
-            this.allData = res.data
+            console.log(res.data.data)
+            console.log(5555555)
+            this.allData = res.data.data
             myFollow(this.$route.params.id).then((res) => {
-              res.data.forEach((element) => {
+              res.data.data.forEach((element) => {
                 this.isfollowid.push(element.id)
               })
             })
@@ -111,8 +112,8 @@ export default {
         myFollow(this.$route.params.id)
           .then((res) => {
             console.log(res)
-            this.allData = res.data
-            res.data.forEach((element) => {
+            this.allData = res.data.data
+            res.data.data.forEach((element) => {
               this.isfollowid.push(element.id)
             })
           })

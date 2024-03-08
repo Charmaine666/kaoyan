@@ -1,11 +1,15 @@
 import request from '../utils/request'
 
-export function mygoodCount () {
+export function getMsg (id) {
+  // console.log(id)
   return request({
-    url: '/mygood',
+    url: '/baike',
+    method: 'get',
     headers: {
       'Content-Type': 'application/json'
     },
-    method: 'get'
+    params: {
+      item_id: id
+    }
   })
 }

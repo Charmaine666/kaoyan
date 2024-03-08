@@ -3,8 +3,8 @@
       <div id="comm_head">
           <img src="../../assets/icon/msg.png" style="width:40px; height: 50px;">
           <div>
-            <button class="btn">广场</button>
-            <button class="btn">关注</button>
+            <el-button class="btn">广场</el-button>
+            <el-button class="btn">关注</el-button>
           </div>
           <img src="../../assets/icon/plus3.png" style="width:40px; height: 40px;">
 
@@ -16,14 +16,20 @@
       </div>
 
       <div id="content">
-        <div v-for="i in 4" :key="i" class="card_find">
+        <div v-for="o in infoList" :key="o.blog_id" class="card_find">
           <div id="content_head">
-            <span style="width: 88%; font-weight: bold; font-size: 1.2rem; margin-left: 13px;">title</span>
-            <img src="../../assets/icon/dianzan.png" class="icon_1">
-            <img src="../../assets/icon/pinglun.png" class="icon_1">
+            <span style="width: 85%; font-weight: bold; font-size: 1.2rem; margin-left: 13px;">{{o.title}}</span>
+            <!-- <img :src="dz_src" class="icon_1" @click="dianzan()">{{ 99 }} -->
+            <div  class="iconfont" @click="dianzan(o.blog_id)">
+              <div id="dz" class="icon-dianzan" v-bind="dzList[o.blog_id]">{{dzList[o.blog_id]}}</div>
+            </div>
+            <!-- <img src="../../assets/icon/pinglun1.png" class="icon_1">{{ 12 }} -->
+            <div class="iconfont">
+              <div class="icon-pinglun">{{23}}</div>
+            </div>
           </div>
           <div id="content_content">
-            <span>今天去爬山啦放松放松心情</span>
+            <span>{{o.contend}}</span>
           </div>
 
           <div id="content_img">
@@ -39,15 +45,15 @@
             <div class="box">
               <img :src=imgList[3]>
             </div>
-            <div style="font-size: 1.4rem;text-align: center; width:3%;height: 170px; border:1px solid gray;">
-            查看更多
+            <div style="font-size: 1.4rem;text-align: center; width:6%;height: 170px;color: rgba(220, 210, 220,0.9); background-color: rgba(70,70,70,0.2); display: flex;justify-content: center;align-items: center;">
+            <a href="#" style="text-decoration: none; color:aliceblue;">>></a>
             </div>
           </div>
 
           <div id="author">
             <div id="author_left">
-              <span>name</span>
-              <img src="http://s9nrl7h4c.hn-bkt.clouddn.com/avatar2.jpg" style="width: 100%; height: 100%; border-radius: 22px; margin-left: 10px;">
+              <span>{{o.nickname}}</span>
+              <img :src="o.avatar" style="width: 50px; height: 50px; border-radius: 50%;">
             </div>
             <div id="time">
               2024-03-02 11:50
@@ -60,21 +66,43 @@
   </template>
 
 <script>
+import { getBlog } from '@/api/blog.js'
 export default {
   name: 'Commu',
   data () {
     return {
+      dzList: [66, 22, 42, 64, 12, 45],
+      dz_src: require('@/assets/icon/dianzan1.png'),
       imgList: [
         'http://s9nrl7h4c.hn-bkt.clouddn.com/m1.jpg',
         'http://s9nrl7h4c.hn-bkt.clouddn.com/m2.jpg',
         'http://s9nrl7h4c.hn-bkt.clouddn.com/m3.jpg',
         'http://s9nrl7h4c.hn-bkt.clouddn.com/m4.jpg'
-      ]
+      ],
+      infoList: [],
+      beforeRouteLeave (to, from, next) {
+        // ...
+      }
+    }
+  },
+  mounted () {
+    getBlog().then((res) => {
+      // alert('查询院校成功')
+      var result = res.data.data
+      this.infoList = result
+      console.log(result)
+    })
+  },
+  methods: {
+    dianzan (id) {
+      var d = document.getElementById('dz')
+      d.style.color = 'red'
+      this.dzList[id] = this.dzList[id] + 1
     }
   }
 }
 </script>
 
 <style src="@/assets/css/comm.css">
-
+   @import 'https://at.alicdn.com/t/c/font_4458996_hw7bssopbtq.css'
 </style>
