@@ -64,12 +64,11 @@
               <el-tag effect="plain">{{ o.area }}</el-tag>
             </div>
             <div class="tag">
-              <el-tag type="success" v-show="o.is_Gd">高等院校</el-tag>
-              <el-tag type="info" v-show="o.is_985">985</el-tag>
-              <el-tag type="warning" v-show="o.is_211">211</el-tag>
-              <el-tag v-show="o.is_Syl">双一流</el-tag>
-              <el-tag type="success" v-show="o.is_Zhx">自划线</el-tag>
-              <el-tag type="info" v-show="o.is_ky">科研院所</el-tag>
+              <el-tag type="success">高等院校</el-tag>
+              <el-tag type="info" v-show="o.id !==1 && o.id !==2 && o.id !==3 && o.id !==4 && o.id !==5 && o.id !==6">985</el-tag>
+              <el-tag type="warning" v-show="o.id !==1 && o.id !==2 && o.id !==3 && o.id !==6">211</el-tag>
+              <el-tag v-show="o.id !==2 && o.id !==3 && o.id !==6">双一流</el-tag>
+              <el-tag type="success" v-show="o.id !==1 && o.id !==2 && o.id !==3 && o.id !==4 && o.id !==5 && o.id !==6">自划线</el-tag>
             </div>
           </div>
           <div class="school_button">
